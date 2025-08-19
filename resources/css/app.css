@@ -1,0 +1,82 @@
+@import "tailwindcss";
+
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../storage/framework/views/*.php';
+@source '../**/*.blade.php';
+@source '../**/*.js';
+
+@theme {
+    --font-sans: "Instrument Sans", ui-sans-serif, system-ui, sans-serif,
+        "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol",
+        "Noto Color Emoji";
+}
+
+@import "bootstrap/dist/css/bootstrap.min.css";
+
+/* === Geo Gradient + Grid === */
+:root {
+    --geo-bg: #ffffff;
+    --geo-fg: #0f172a;
+    --grid-color: rgba(15, 23, 42, 0.06);
+    --ring-1: rgba(99, 102, 241, 0.28);
+    --ring-2: rgba(56, 189, 248, 0.25);
+    --ring-3: rgba(168, 85, 247, 0.22);
+}
+@media (prefers-color-scheme: dark) {
+    :root {
+        --geo-bg: #0b1020;
+        --geo-fg: #e5e7eb;
+        --grid-color: rgba(148, 163, 184, 0.08);
+        --ring-1: rgba(99, 102, 241, 0.32);
+        --ring-2: rgba(56, 189, 248, 0.3);
+        --ring-3: rgba(168, 85, 247, 0.28);
+    }
+}
+.geo-bg {
+    position: relative;
+    color: var(--geo-fg);
+    background: var(--geo-bg);
+    min-height: 100vh;
+    overflow: clip;
+    isolation: isolate;
+}
+.geo-bg::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background: radial-gradient(
+            600px circle at 20% 25%,
+            var(--ring-3),
+            transparent 40%
+        ),
+        radial-gradient(800px circle at 85% 35%, var(--ring-2), transparent 42%),
+        radial-gradient(700px circle at 55% 80%, var(--ring-1), transparent 45%),
+        linear-gradient(180deg, rgba(255, 255, 255, 0.2), rgba(0, 0, 0, 0.03)),
+        linear-gradient(0deg, var(--grid-color) 1px, transparent 1px),
+        linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
+    background-size: auto, auto, auto, 100% 100%, 40px 40px, 40px 40px;
+    background-attachment: fixed, fixed, fixed, fixed, fixed, fixed;
+    mask-image: radial-gradient(
+        100% 100% at 50% 50%,
+        black 70%,
+        transparent 100%
+    );
+    -webkit-mask-image: radial-gradient(
+        100% 100% at 50% 50%,
+        black 70%,
+        transparent 100%
+    );
+}
+.glass {
+    background: rgba(255, 255, 255, 0.55);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.35);
+}
+@media (prefers-color-scheme: dark) {
+    .glass {
+        background: rgba(16, 23, 42, 0.45);
+        border-color: rgba(255, 255, 255, 0.08);
+    }
+}

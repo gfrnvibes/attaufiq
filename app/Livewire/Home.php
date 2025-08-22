@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use App\Models\WebSetting;
 use Livewire\Component;
 use Livewire\Attributes\Title;
 
@@ -10,6 +11,8 @@ class Home extends Component
 {
     public function render()
     {
-        return view('livewire.home');
+        $webSetting = WebSetting::firstOrFail();
+
+        return view('livewire.home', compact('webSetting'));
     }
 }

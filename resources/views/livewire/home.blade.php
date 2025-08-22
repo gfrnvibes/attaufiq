@@ -1,11 +1,9 @@
 <div>
     <section class="p-5 text-center mt-5">
-        <h3 class="special-font ml7">Hei, kamu sedang berada di</h3>
-        <h1 class="text-gradient fw-bold display-1">MTs At-Taufiq Cisurupan</h1>
+        <h3 class="special-font ml7">Hai, kamu sedang berada di</h3>
+        <h1 class="text-gradient fw-bold display-1">{{ $webSetting->web_name }}</h1>
         <div class="col-12 col-md-6 mx-auto mb-4">
-            <p class="lead"> <span class="text-success fw-bold">Tahukah Kamu?</span> Pendidikan adalah cahaya yang menuntun manusia keluar dari gelapnya ketidaktahuan,
-                menumbuhkan keberanian untuk
-                bermimpi, dan memberi sayap agar setiap langkah kecil bisa terbang menuju masa depan.
+            <p class="lead">{{ $webSetting->web_description }}
             </p>
         </div>
         <div class="d-flex gap-2 justify-content-center">
@@ -27,8 +25,7 @@
                 </div>
                 <div class="col-12 col-md-6  mb-5 mb-md-0">
                     <h2 class="special-font text-success">Visi Kami ✨</h2>
-                    <p class="lead">Lorem ipsum dolor sit amet consectetur adipisicing elit. Totam laudantium suscipit
-                        quasi consequuntur. Omnis autem aspernatur neque molestias optio corrupti!</p>
+                    <p class="lead">{{ $webSetting->visi }}</p>
                 </div>
             </div>
         </div>

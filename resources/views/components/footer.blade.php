@@ -2,7 +2,7 @@
     <div class="container">
         <div class="row align-items-center">
             <div class="col-md-6">
-                <div class="footer-brand special-font text-gradient">MTs At-taufiq</div>
+                <div class="special-font text-gradient">MTs At-taufiq</div>
                 <p class="footer-text">Creating amazing experiences and innovative solutions for our customers
                     worldwide.</p>
                 <div class="social-links">

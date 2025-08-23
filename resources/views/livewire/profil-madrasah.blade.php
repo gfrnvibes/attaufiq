@@ -18,8 +18,7 @@
                 <img src="https://placehold.co/400x200" alt="" class="img-fluid">
             </div>
             <div class="col-12 col-md-6">
-                <p class="">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Alias, voluptates dolores
-                    saepe harum minima dignissimos.</p>
+                <p class="text-justify">{{ $webSetting->sejarah }}</p>
             </div>
         </div>
     </div>
@@ -30,15 +29,15 @@
         <div class="row">
             <div class="col-12 col-md-6 text-center">
                 <h4>Visi</h4>
-                <p class="">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Alias, voluptates dolores
-                    saepe harum
-                    minima dignissimos.</p>
+                <p class="">"{{ $webSetting->visi }}"</p>
             </div>
-            <div class="col-12 col-md-6 text-center">
-                <h4>Misi</h4>
-                <p class="">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Alias, voluptates dolores
-                    saepe harum
-                    minima dignissimos.</p>
+            <div class="col-12 col-md-6">
+                <h4 class="text-center">Misi</h4>
+                <ol>
+                    @foreach ($webSetting->misi as $key => $misi)
+                       <li class="text-justify">{{ $misi }}</li>
+                    @endforeach
+                </ol>
             </div>
         </div>
     </div>

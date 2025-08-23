@@ -6,12 +6,17 @@ h1 {
     font-family: "Mozilla Headline", sans-serif;
 }
 
+
 .special-font {
     font-family: "Pacifico", cursive;
 }
 
 .navbar-inner {
     background:transparent;
+}
+
+.text-justify {
+    text-align: justify;
 }
 
 .text-gradient {

@@ -34,11 +34,11 @@
             <div class="row justify-content-center align-items-center flex-wrap-reverse ">
                 <div class="col-12 col-md-6 mb-3 ">
                     <h2 class="special-font text-success">Misi Kami 🚀</h2>
-                    <ul class="lead">
-                        <li>Lorem ipsum dolor sit amet consectetur adipisicing elit.</li>
-                        <li>Lorem ipsum dolor sit amet consectetur adipisicing elit.</li>
-                        <li>Lorem ipsum dolor sit amet consectetur adipisicing elit.</li>
-                    </ul>
+                                    <ol>
+                                        @foreach ($webSetting->misi as $key => $misi)
+                                            <li class="text-justify">{{ $misi }}</li>
+                                        @endforeach
+                                    </ol>
                 </div>
                 <div class="col-12 col-md-6 mb-5 mb-md-0 ">
                     <img src="{{ asset('assets/img/undraw_graduation_u7uc.svg') }}" alt="" class="img-fluid">

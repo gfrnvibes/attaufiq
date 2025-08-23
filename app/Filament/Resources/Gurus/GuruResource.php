@@ -8,6 +8,7 @@ use App\Filament\Resources\Gurus\Pages\ListGurus;
 use App\Filament\Resources\Gurus\Schemas\GuruForm;
 use App\Filament\Resources\Gurus\Tables\GurusTable;
 use App\Models\Guru;
+use UnitEnum;
 use BackedEnum;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
@@ -17,11 +18,10 @@ use Filament\Tables\Table;
 class GuruResource extends Resource
 {
     protected static ?string $model = Guru::class;
-
     protected static string|BackedEnum|null $navigationIcon = Heroicon::UserGroup;
-
     protected static ?string $recordTitleAttribute = 'Guru';
     protected static ?string $navigationLabel = 'Guru';
+    protected static string|UnitEnum|null $navigationGroup = 'Guru & Siswa';
 
     public static function form(Schema $schema): Schema
     {

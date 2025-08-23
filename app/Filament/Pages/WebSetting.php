@@ -22,7 +22,9 @@ class WebSetting extends Page implements HasForms
 {
     use InteractsWithForms;
 
+    protected static ?string $slug = 'profil-madrasah';
     protected string $view = 'filament.pages.web-setting';
+    protected static ?string $title = 'Profil Madrasah';
     protected static string|BackedEnum|null $navigationIcon = Heroicon::BuildingOffice2;
     protected static ?string $navigationLabel = 'Profil Madrasah';
     protected static string $resource = WebSettingModel::class;

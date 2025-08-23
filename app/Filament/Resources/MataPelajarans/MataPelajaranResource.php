@@ -4,6 +4,7 @@ namespace App\Filament\Resources\MataPelajarans;
 
 use App\Filament\Resources\MataPelajarans\Pages\ManageMataPelajarans;
 use App\Models\MataPelajaran;
+use UnitEnum;
 use BackedEnum;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
@@ -24,6 +25,8 @@ class MataPelajaranResource extends Resource
 
     protected static ?string $recordTitleAttribute = 'Mata Pelajaran';
     protected static ?string $navigationLabel = 'Mata Pelajaran';
+    protected static string|UnitEnum|null $navigationGroup = 'Guru & Siswa';
+
 
     public static function form(Schema $schema): Schema
     {

@@ -25,7 +25,7 @@ class DokumentasiResource extends Resource
     protected static string|BackedEnum|null $navigationIcon = Heroicon::Photo;
 
     protected static ?string $recordTitleAttribute = 'Dokumentasi';
-    protected static ?string $navigationLabel = 'Dokumentasi';
+    protected static ?string $navigationLabel = 'Dok. Kegiatan';
 
     protected static string|UnitEnum|null $navigationGroup = 'Kesiswaan';
 

@@ -1,0 +1,14 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+
+class Dokumentasi extends Model
+{
+    protected $fillable = [
+        'judul_kegiatan',
+        'deskripsi_kegiatan',
+        'tgl_kegiatan',
+    ];
+}

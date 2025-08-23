@@ -2,10 +2,12 @@
 
 namespace App\Filament\Pages;
 
+use UnitEnum;
 use BackedEnum;
 use Filament\Pages\Page;
 use Filament\Actions\Action;
 use Filament\Support\Icons\Heroicon;
+use Filament\Schemas\Components\Grid;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Forms\Components\KeyValue;
 use Filament\Forms\Components\Textarea;
@@ -21,16 +23,17 @@ class WebSetting extends Page implements HasForms
     use InteractsWithForms;
 
     protected string $view = 'filament.pages.web-setting';
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::Cog6Tooth;
-    protected static ?string $navigationLabel = 'Web Settings';
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::BuildingOffice2;
+    protected static ?string $navigationLabel = 'Profil Madrasah';
     protected static string $resource = WebSettingModel::class;
+    protected static string|UnitEnum|null $navigationGroup = 'Identitas Madrasah';
     public ?WebSettingModel $record = null;
     public array $data = []; // state form
 
     public function mount(): void
     {
-        // Ambil record tunggal; kalau belum ada, create.
-        $this->record = WebSettingModel::first() ?? WebSettingModel::create([]);
+        // Ambil record tunggal; jika belum ada, buat record baru
+        $this->record = WebSettingModel::first() ?? new WebSettingModel();
 
         // Prefill form state dari model
         $this->form->fill($this->record->toArray());
@@ -39,40 +42,44 @@ class WebSetting extends Page implements HasForms
     protected function getFormSchema(): array
     {
         return [
-            FileUpload::make('web_logo')
-                ->label('Logo Website')
-                ->image()
-                ->visibility('public')
-                ->directory('web-settings')
-                ->preserveFilenames()
-                // ->collection('web_logo')
-                ->nullable(),
-            TextInput::make('web_name')
-                ->label('Nama Website')
-                ->required()
-                ->maxLength(255),
-            TextInput::make('web_tagline')
-                ->label('Tagline')
-                ->required()
-                ->maxLength(255),
-            Textarea::make('web_description')
-                ->label('Deskripsi')
-                ->required()
-                ->maxLength(255),
-            Textarea::make('sambutan_kepsek')
-                ->label('Sambutan Kepala Sekolah')
-                ->required(),
-            Textarea::make('visi')
-                ->label('Visi')
-                ->required(),
-            KeyValue::make('misi')
-                ->keyLabel('No')
-                ->valueLabel('Misi')
-                ->addActionLabel('Add property'),
-            Textarea::make('sejarah')
-                ->label('Sejarah Sekolah')
-                ->required(),
-            
+            Grid::make(2)
+                ->schema([
+                    TextInput::make('web_name')
+                        ->label('Nama Website')
+                        ->required()
+                        ->maxLength(255),
+                    TextInput::make('web_tagline')
+                        ->label('Tagline')
+                        ->required()
+                        ->maxLength(255),
+
+                    Textarea::make('web_description')
+                        ->label('Deskripsi')
+                        ->required()
+                        ->maxLength(255)
+                        ->columnSpanFull(),
+
+                    Textarea::make('sambutan_kepsek')
+                        ->label('Sambutan Kepala Sekolah')
+                        ->required()
+                        ->columnSpanFull(),
+
+                    Textarea::make('visi')
+                        ->label('Visi')
+                        ->required()
+                        ->columnSpanFull(),
+
+                    KeyValue::make('misi')
+                        ->keyLabel('No')
+                        ->valueLabel('Misi')
+                        ->addActionLabel('Tambah Misi')
+                        ->columnSpanFull(),
+
+                    Textarea::make('sejarah')
+                        ->label('Sejarah Madrasah')
+                        ->required()
+                        ->columnSpanFull(),
+                ])
         ];
     }
 

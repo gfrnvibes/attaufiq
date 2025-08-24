@@ -4,9 +4,7 @@
     </div>
     <div class="text-center">
         <a class="btn btn-outline-success btn-sm rounded-pill" href="#exkul">Extrakulikuler</a>
-        <a class="btn btn-outline-success btn-sm rounded-pill" href="#visi">Visi & Misi</a>
-        <a class="btn btn-outline-success btn-sm rounded-pill" href="#struktur">Struktur Organisasi</a>
-        <a class="btn btn-outline-success btn-sm rounded-pill" href="#guru">Guru & Tenaga Kependidikan</a>
-        <a class="btn btn-outline-success btn-sm rounded-pill" href="#sarana">Sarana & Prasarana</a>
+        <a class="btn btn-outline-success btn-sm rounded-pill" href="#prestasi">Prestasi</a>
+        <a class="btn btn-outline-success btn-sm rounded-pill" href="#dokumentasi">Dokumentasi Kegiatan</a>
     </div>
 </div>

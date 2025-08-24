@@ -10,6 +10,7 @@ use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
@@ -39,6 +40,13 @@ class MataPelajaranResource extends Resource
                 TextInput::make('deskripsi_mapel')
                     ->maxLength(255)
                     ->label('Deskripsi Mata Pelajaran'),
+                Select::make('gurus')
+                    ->label('Guru Pengajar')
+                    ->relationship('gurus', 'name')
+                    ->required()
+                    ->multiple()
+                    ->preload()
+                    ->searchable(),
             ]);
     }
 
@@ -52,6 +60,8 @@ class MataPelajaranResource extends Resource
                     ->searchable(),
                 TextColumn::make('deskripsi_mapel')
                     ->label('Deskripsi Mata Pelajaran'),
+                TextColumn::make('gurus.name')
+                    ->label('Guru Pengajar'),
             ])
             ->filters([
                 //

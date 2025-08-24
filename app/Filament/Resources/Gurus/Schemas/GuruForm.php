@@ -30,6 +30,13 @@ class GuruForm
                         'bendahara' => 'Bendahara',
                     ])
                     ->default('guru'),
+                Select::make('mata_pelajarans')
+                    ->required()
+                    ->relationship('mataPelajarans', 'nama_mapel')
+                    ->label('Mata Pelajaran')
+                    ->searchable()
+                    ->preload()
+                    ->multiple(),
             ]);
     }
 }

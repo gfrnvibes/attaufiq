@@ -2,20 +2,22 @@
 
 namespace App\Filament\Resources\Fasilitas;
 
-use App\Filament\Resources\Fasilitas\Pages\ManageFasilitas;
-use App\Models\Fasilitas;
-use BackedEnum;
-use Filament\Actions\BulkActionGroup;
-use Filament\Actions\DeleteAction;
-use Filament\Actions\DeleteBulkAction;
-use Filament\Actions\EditAction;
-use Filament\Forms\Components\TextInput;
-use Filament\Resources\Resource;
-use Filament\Schemas\Schema;
-use Filament\Support\Icons\Heroicon;
-use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Table;
+use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use UnitEnum;
+use BackedEnum;
+use App\Models\Fasilitas;
+use Filament\Tables\Table;
+use Filament\Schemas\Schema;
+use Filament\Actions\EditAction;
+use Filament\Resources\Resource;
+use Filament\Actions\DeleteAction;
+use Filament\Support\Icons\Heroicon;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteBulkAction;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Forms\Components\TextInput;
+use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
+use App\Filament\Resources\Fasilitas\Pages\ManageFasilitas;
 
 class FasilitasResource extends Resource
 {
@@ -30,6 +32,8 @@ class FasilitasResource extends Resource
     {
         return $schema
             ->components([
+                SpatieMediaLibraryFileUpload::make('gambar')
+                    ->label('Gambar'),
                 TextInput::make('nama_fasilitas')
                     ->required(),
                 TextInput::make('deskripsi_fasilitas'),
@@ -41,6 +45,8 @@ class FasilitasResource extends Resource
         return $table
             ->recordTitleAttribute('Fasilitas')
             ->columns([
+                SpatieMediaLibraryImageColumn::make('gambar')
+                    ->label('Gambar'),
                 TextColumn::make('nama_fasilitas')
                     ->searchable(),
                 TextColumn::make('deskripsi_fasilitas')

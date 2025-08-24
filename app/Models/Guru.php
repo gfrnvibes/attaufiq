@@ -2,10 +2,13 @@
 
 namespace App\Models;
 
+use Spatie\MediaLibrary\HasMedia;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\MediaLibrary\InteractsWithMedia;
 
-class Guru extends Model
+class Guru extends Model implements HasMedia
 {
+    use InteractsWithMedia;
     protected $fillable = [
         'name',
         'mata_pelajaran_id',

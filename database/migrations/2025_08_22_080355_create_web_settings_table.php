@@ -14,7 +14,6 @@ return new class extends Migration
         Schema::create('web_settings', function (Blueprint $table) {
             $table->id();
             $table->string('web_name')->unique();
-            $table->string('web_logo')->unique();
             $table->string('web_tagline')->nullable();
             $table->string('web_description');
             $table->text('sambutan_kepsek')->nullable();

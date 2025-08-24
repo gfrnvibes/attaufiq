@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Dokumentasis;
 
+use UnitEnum;
 use BackedEnum;
 use Filament\Tables\Table;
 use App\Models\Dokumentasi;
@@ -15,8 +16,9 @@ use Filament\Actions\DeleteBulkAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\DatePicker;
+use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
+use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use App\Filament\Resources\Dokumentasis\Pages\ManageDokumentasis;
-use UnitEnum;
 
 class DokumentasiResource extends Resource
 {
@@ -33,6 +35,8 @@ class DokumentasiResource extends Resource
     {
         return $schema
             ->components([
+                SpatieMediaLibraryFileUpload::make('gambar')
+                    ->label('Gambar'),
                 TextInput::make('judul_kegiatan')
                     ->required()
                     ->maxLength(255),
@@ -50,6 +54,8 @@ class DokumentasiResource extends Resource
         return $table
             ->recordTitleAttribute('Dokumentasi')
             ->columns([
+                SpatieMediaLibraryImageColumn::make('gambar')
+                    ->label('Gambar'),
                 TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()

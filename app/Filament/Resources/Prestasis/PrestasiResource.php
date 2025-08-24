@@ -15,6 +15,8 @@ use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
+use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
+use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use UnitEnum;
 
 
@@ -34,6 +36,8 @@ class PrestasiResource extends Resource
     {
         return $schema
             ->components([
+                SpatieMediaLibraryFileUpload::make('gambar')
+                    ->label('Gambar'),
                 TextInput::make('nama_prestasi')
                     ->required()
                     ->maxLength(255),
@@ -48,6 +52,8 @@ class PrestasiResource extends Resource
         return $table
             ->recordTitleAttribute('Prestasi')
             ->columns([
+                SpatieMediaLibraryImageColumn::make('gambar')
+                    ->label('Gambar'),
                 TextColumn::make('nama_prestasi')
                     ->searchable(),
                 TextColumn::make('deskripsi_prestasi')

@@ -2,9 +2,10 @@
 
 namespace App\Filament\Resources\Gurus\Schemas;
 
+use Filament\Schemas\Schema;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
-use Filament\Schemas\Schema;
+use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 
 class GuruForm
 {
@@ -12,6 +13,9 @@ class GuruForm
     {
         return $schema
             ->components([
+                SpatieMediaLibraryFileUpload::make('avatar')
+                    ->label('Foto')
+                    ->responsiveImages(),
                 TextInput::make('name')
                     ->required(),
                 TextInput::make('nip'),

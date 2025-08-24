@@ -15,6 +15,8 @@ use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
+use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
+use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use UnitEnum;
 
 class EkskulResource extends Resource
@@ -31,6 +33,8 @@ class EkskulResource extends Resource
     {
         return $schema
             ->components([
+                SpatieMediaLibraryFileUpload::make('gambar')
+                    ->label('Gambar'),
                 TextInput::make('nama_ekskul')
                     ->required()
                     ->maxLength(255),
@@ -45,6 +49,8 @@ class EkskulResource extends Resource
         return $table
             ->recordTitleAttribute('Extra Kulikuler')
             ->columns([
+                SpatieMediaLibraryImageColumn::make('gambar')
+                    ->label('Gambar'),
                 TextColumn::make('nama_ekskul')
                     ->searchable(),
                 TextColumn::make('deskripsi_ekskul')

@@ -5,6 +5,7 @@ namespace App\Filament\Resources\Gurus\Tables;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
+use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 
@@ -14,6 +15,8 @@ class GurusTable
     {
         return $table
             ->columns([
+                SpatieMediaLibraryImageColumn::make('avatar')
+                    ->label('Foto'),
                 TextColumn::make('name')
                     ->label('Nama Guru')
                     ->searchable(),

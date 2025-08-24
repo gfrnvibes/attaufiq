@@ -17,6 +17,8 @@ use Filament\Notifications\Notification;
 use Filament\Forms\Components\FileUpload;
 use App\Models\WebSetting as WebSettingModel;
 use Filament\Forms\Concerns\InteractsWithForms;
+use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
+use Filament\Infolists\Components\SpatieMediaLibraryImageEntry;
 
 class WebSetting extends Page implements HasForms
 {
@@ -46,6 +48,9 @@ class WebSetting extends Page implements HasForms
         return [
             Grid::make(2)
                 ->schema([
+                    SpatieMediaLibraryFileUpload::make('avatar')
+                    ->label('Logo')
+                    ->responsiveImages(),
                     TextInput::make('web_name')
                         ->label('Nama Website')
                         ->required()

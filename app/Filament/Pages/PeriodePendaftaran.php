@@ -23,8 +23,8 @@ class PeriodePendaftaran extends Page implements HasForms
 {
     use InteractsWithForms;
     protected string $view = 'filament.pages.periode-pendaftaran';
-    protected static ?string $title = 'Periode PPDB';
     protected static string|BackedEnum|null $navigationIcon = Heroicon::CalendarDays;
+    protected static ?string $title = 'Periode PPDB';
     protected static ?string $navigationLabel = 'Periode PPDB';
     protected static string|UnitEnum|null $navigationGroup = 'PPDB';
     public ?PeriodePendaftaranModel $record = null;

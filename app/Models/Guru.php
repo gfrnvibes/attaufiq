@@ -7,11 +7,12 @@ use Spatie\MediaLibrary\HasMedia;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 class Guru extends Model implements HasMedia
 {
     use InteractsWithMedia;
-    
+
     protected $fillable = [
         'name',
         'mata_pelajaran_id',
@@ -30,6 +31,12 @@ class Guru extends Model implements HasMedia
     public function mataPelajarans()
     {
         return $this->belongsToMany(MataPelajaran::class, 'guru_mata_pelajarans')->withTimestamps();
+    }
+
+    public function addresses(): MorphMany
+    {
+        \Illuminate\Support\Facades\Log::debug('Mengakses relasi addresses untuk guru ID: ' . $this->id);
+        return $this->morphMany(Address::class, 'addressable');
     }
 
     public function registerMediaConversions(?Media $media = null): void

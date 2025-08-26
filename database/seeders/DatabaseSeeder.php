@@ -16,7 +16,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        DB::unprepared(file_get_contents((database_path('seeders/indonesia.sql'))));
+        // DB::unprepared(file_get_contents((database_path('seeders/indonesia.sql'))));
 
         User::updateOrCreate(
             ['email' => 'admin@attaufiq.com'], // kunci unik
@@ -29,6 +29,10 @@ class DatabaseSeeder extends Seeder
         );
 
         $this->call([
+            ProvinceSeeder::class,
+            RegencySeeder::class,
+            DistrictSeeder::class,
+            VillageSeeder::class,
             MataPelajaranSeeder::class,
             GuruSeeder::class,
             GuruMataPelajaranSeeder::class,

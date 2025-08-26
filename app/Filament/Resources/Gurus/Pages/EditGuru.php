@@ -21,4 +21,15 @@ class EditGuru extends EditRecord
             DeleteAction::make(),
         ];
     }
+
+    protected function afterSave(): void
+    {
+        $addressData = $this->data['addresses'][0] ?? [];
+
+        if ($this->record->addresses()->count() > 0) {
+            $this->record->addresses()->first()->update($addressData);
+        } else {
+            $this->record->addresses()->create($addressData);
+        }
+    }
 }

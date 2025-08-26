@@ -2,9 +2,15 @@
 
 namespace App\Filament\Resources\Gurus\Schemas;
 
+use App\Models\Province;
+use App\Models\Regency;
+use App\Models\District;
+use App\Models\Village;
 use Filament\Schemas\Schema;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Textarea;
+use Filament\Schemas\Components\Section;
 use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 
 class GuruForm
@@ -41,6 +47,84 @@ class GuruForm
                     ->searchable()
                     ->preload()
                     ->multiple(),
+
+                Section::make('Alamat')
+                    ->schema([
+                        TextInput::make('addresses.0.dusun')
+                            ->label('Dusun/Kampung')
+                            ->columnSpanFull(),
+
+                        TextInput::make('addresses.0.rt')
+                            ->label('RT')
+                            ->columnSpanFull(),
+
+                        TextInput::make('addresses.0.rw')
+                            ->label('RW')
+                            ->columnSpanFull(),
+
+                        Select::make('addresses.0.province_id')
+                            ->label('Provinsi')
+                            ->options(Province::all()->pluck('name', 'id'))
+                            ->searchable()
+                            ->preload()
+                            ->reactive()
+                            ->afterStateUpdated(function (callable $set, $state) {
+                                $set('addresses.0.regency_id', null);
+                                $set('addresses.0.district_id', null);
+                                $set('addresses.0.village_id', null);
+                            }),
+
+                        Select::make('addresses.0.regency_id')
+                            ->label('Kabupaten/Kota')
+                            ->options(function (callable $get) {
+                                $provinceId = $get('addresses.0.province_id');
+                                if ($provinceId) {
+                                    return Regency::where('province_id', $provinceId)->pluck('name', 'id');
+                                }
+                                return [];
+                            })
+                            ->searchable()
+                            ->reactive()
+                            ->disabled(fn(callable $get) => !$get('addresses.0.province_id'))
+                            ->afterStateUpdated(function (callable $set, $state) {
+                                $set('addresses.0.district_id', null);
+                                $set('addresses.0.village_id', null);
+                            }),
+
+                        Select::make('addresses.0.district_id')
+                            ->label('Kecamatan')
+                            ->options(function (callable $get) {
+                                $regencyId = $get('addresses.0.regency_id');
+                                if ($regencyId) {
+                                    return District::where('regency_id', $regencyId)->pluck('name', 'id');
+                                }
+                                return [];
+                            })
+                            ->searchable()
+                            ->reactive()
+                            ->disabled(fn(callable $get) => !$get('addresses.0.regency_id'))
+                            ->afterStateUpdated(function (callable $set, $state) {
+                                $set('addresses.0.village_id', null);
+                            }),
+
+                        Select::make('addresses.0.village_id')
+                            ->label('Desa/Kelurahan')
+                            ->options(function (callable $get) {
+                                $districtId = $get('addresses.0.district_id');
+                                if ($districtId) {
+                                    return Village::where('district_id', $districtId)->pluck('name', 'id');
+                                }
+                                return [];
+                            })
+                            ->searchable()
+                            ->disabled(fn(callable $get) => !$get('addresses.0.district_id')),
+
+                        TextInput::make('addresses.0.postal_code')
+                            ->label('Kode Pos')
+                            ->numeric()
+                            ->maxLength(10),
+                    ])
+                    ->columns(2),
             ]);
     }
 }

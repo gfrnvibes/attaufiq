@@ -2,13 +2,16 @@
 
 namespace App\Models;
 
+use Spatie\Image\Enums\Fit;
 use Spatie\MediaLibrary\HasMedia;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\MediaLibrary\InteractsWithMedia;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class Guru extends Model implements HasMedia
 {
     use InteractsWithMedia;
+    
     protected $fillable = [
         'name',
         'mata_pelajaran_id',
@@ -27,5 +30,19 @@ class Guru extends Model implements HasMedia
     public function mataPelajarans()
     {
         return $this->belongsToMany(MataPelajaran::class, 'guru_mata_pelajarans')->withTimestamps();
+    }
+
+    public function registerMediaConversions(?Media $media = null): void
+    {
+        $this
+            ->addMediaConversion('preview')
+            ->fit(Fit::Contain, 300, 300)
+            ->nonQueued();
+    }
+
+    public function registerMediaCollections(): void
+    {
+        $this->addMediaCollection('avatar')
+            ->singleFile();
     }
 }

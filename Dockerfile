@@ -1,25 +1,40 @@
+# Build stage untuk assets
+FROM node:20-alpine AS assets
+WORKDIR /app
+COPY package*.json ./
+RUN npm ci
+COPY . .
+RUN npm run build
+
+# Production stage
 FROM php:8.2-apache
 
-# Sistem deps + PGSQL extension
+# Install sistem dependencies + PHP extensions
 RUN apt-get update && apt-get install -y \
     git unzip curl libzip-dev zip libpng-dev libonig-dev libxml2-dev libpq-dev \
- && docker-php-ext-install pdo pdo_pgsql zip
+    && docker-php-ext-install pdo pdo_pgsql zip mbstring xml gd \
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# Composer
+# Install Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-# Apache ke /public dan rewrite
+# Configure Apache
 RUN sed -i 's|DocumentRoot /var/www/html|DocumentRoot /var/www/html/public|g' /etc/apache2/sites-available/000-default.conf \
  && a2enmod rewrite
 
 WORKDIR /var/www/html
 
-# Optimalkan cache layer composer
+# Copy dependency files first for better layer caching
 COPY composer.json composer.lock ./
+
+# Install PHP dependencies without scripts to avoid errors
 RUN composer install --no-interaction --prefer-dist --optimize-autoloader --no-dev --no-scripts
 
-# Baru copy semua source (biar layer composer ke-cache)
+# Copy source code
 COPY . /var/www/html
+
+# Copy built assets from build stage
+COPY --from=assets /app/public/build /var/www/html/public/build
 
 # Direktori penting + permission dasar
 RUN mkdir -p storage/app/public \
@@ -31,12 +46,6 @@ RUN mkdir -p storage/app/public \
  && chown -R www-data:www-data /var/www/html \
  && chmod -R 755 /var/www/html \
  && chmod -R 775 storage bootstrap/cache
-
-# (Opsional) Build asset—kalau mau simple tetap di image ini
-RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
- && apt-get install -y nodejs \
- && npm install \
- && npm run build
 
 # PHP upload & session tuning
 RUN printf "upload_max_filesize=50M\npost_max_size=50M\nmax_execution_time=300\nmax_input_time=300\nmemory_limit=256M\nsession.cookie_secure=0\nsession.cookie_httponly=1\nsession.cookie_samesite=Lax\n" > /usr/local/etc/php/conf.d/uploads.ini

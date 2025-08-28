@@ -11,8 +11,6 @@
         "Noto Color Emoji";
 }
 
-@import "bootstrap/dist/css/bootstrap.min.css";
-
 /* === Geo Gradient + Grid === */
 :root {
     --geo-bg: #ffffff;

@@ -39,6 +39,9 @@ COPY . /var/www/html
 # Copy built assets from build stage
 COPY --from=assets /app/public/build /var/www/html/public/build
 
+# Run composer scripts after all files are copied
+RUN composer dump-autoload --optimize --no-dev
+
 # Direktori penting + permission dasar
 RUN mkdir -p storage/app/public \
  && mkdir -p storage/logs \

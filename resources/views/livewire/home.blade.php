@@ -141,28 +141,36 @@
     </div>
 
     {{-- Galeri Section --}}
-        <div class="photo-gallery">
-            <div class="container">
-                <div class="intro">
-                    <h2 class="text-center">Lightbox Gallery</h2>
-                    <p class="text-center">Nunc luctus in metus eget fringilla. Aliquam sed justo ligula. Vestibulum nibh erat,
-                        pellentesque ut laoreet vitae. </p>
+    <div class="container-fluid mb-5">
+        <div class="container">
+            <div>
+                <h2 id="galeri" class="special-font text-success text-center mb-3">Kegiatan Kami</h2>
+                <p class="text-center lead mb-3">Kumpulan foto kegiatan di {{ $webSetting->web_name }}</p>
+            </div>
+            <div class="row">
+                <div class="col-12 col-md-4">
+                    <img src="https://img.freepik.com/free-psd/back-school-web-banner-background-template_120329-6277.jpg?t=st=1756364479~exp=1756368079~hmac=cd6452b1ce256ac07392489e4bb56900e28a8aa0524398f3b209e63881da2916&w=1480" alt=""
+                    class="img-fluid">
                 </div>
-                <div class="row photos">
-                    <div class="col-sm-6 col-md-4 col-lg-3 item"><a href="assets/img/desk.jpg" data-lightbox="photos"><img
-                                class="img-fluid" src="https://img.freepik.com/free-psd/back-school-web-banner-background-template_120329-6277.jpg?t=st=1756364479~exp=1756368079~hmac=cd6452b1ce256ac07392489e4bb56900e28a8aa0524398f3b209e63881da2916&w=1480"></a></div>
-                    <div class="col-sm-6 col-md-4 col-lg-3 item"><a href="assets/img/building.jpg" data-lightbox="photos"><img
-                                class="img-fluid" src="https://img.freepik.com/free-psd/back-school-web-banner-background-template_120329-6277.jpg?t=st=1756364479~exp=1756368079~hmac=cd6452b1ce256ac07392489e4bb56900e28a8aa0524398f3b209e63881da2916&w=1480"></a></div>
-                    <div class="col-sm-6 col-md-4 col-lg-3 item"><a href="assets/img/loft.jpg" data-lightbox="photos"><img
-                                class="img-fluid" src="https://img.freepik.com/free-psd/back-school-web-banner-background-template_120329-6277.jpg?t=st=1756364479~exp=1756368079~hmac=cd6452b1ce256ac07392489e4bb56900e28a8aa0524398f3b209e63881da2916&w=1480"></a></div>
+                <div class="col-12 col-md-4">
+                    <img src="https://img.freepik.com/free-psd/back-school-web-banner-background-template_120329-6277.jpg?t=st=1756364479~exp=1756368079~hmac=cd6452b1ce256ac07392489e4bb56900e28a8aa0524398f3b209e63881da2916&w=1480" alt=""
+                    class="img-fluid">
+                </div>
+                <div class="col-12 col-md-4">
+                    <img src="https://img.freepik.com/free-psd/back-school-web-banner-background-template_120329-6277.jpg?t=st=1756364479~exp=1756368079~hmac=cd6452b1ce256ac07392489e4bb56900e28a8aa0524398f3b209e63881da2916&w=1480" alt=""
+                    class="img-fluid">
                 </div>
             </div>
+            <div class="text-center mx-auto mt-3">
+                <a href="" class="btn btn-outline-success rounded-pill fw-bold">📸 Lihat Semua Kegiatan</a>
+            </div>
         </div>
+    </div>
 
     {{-- CTA Section --}}
-    <section class="my-lg-14 mb-8">
+    <section class="container-fluid mb-5">
         <!-- container -->
-        <div class="container bg-primary rounded-3">
+        <div class="container p-5 bg-success rounded-3">
             <!-- row -->
             <div class="row align-items-center">
                 <!-- col -->
@@ -185,11 +193,11 @@
                 <div class="col-lg-5 col-12">
                     <div class="text-white p-5 p-xl-0">
                         <!-- text -->
-                        <h2 class="h1 text-white">Become an instructor today</h2>
+                        <h2 class="h1 text-white">Daftarkan Ananda Sekarang</h2>
                         <p class="mb-0">Instructors from around the world teach millions of students on Geeks. We
                             provide the tools
                             and skills to teach what you love.</p>
-                        <a href="#" class="btn btn-white mt-4">Start Teaching Today</a>
+                        <a href="#" class="btn btn-warning rounded-pill fw-bold mt-4">Pendaftaran Peserta Didik Baru</a>
                     </div>
                 </div>
             </div>

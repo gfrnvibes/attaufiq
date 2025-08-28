@@ -45,5 +45,6 @@ RUN printf "upload_max_filesize=50M\npost_max_size=50M\nmax_execution_time=300\n
 COPY docker-entrypoint.sh /usr/local/bin/
 RUN chmod +x /usr/local/bin/docker-entrypoint.sh
 
+
 ENTRYPOINT ["docker-entrypoint.sh"]
 CMD ["apache2-foreground"]

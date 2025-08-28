@@ -95,13 +95,20 @@ if [ "${FRESH_MIGRATE:-}" = "true" ]; then
 else
     php artisan migrate --force || true
     
-    # Jalankan seeder hanya jika table users masih kosong (first time deploy)
-    USER_COUNT=$(php -r "require 'vendor/autoload.php'; \$app = require 'bootstrap/app.php'; \$app->make('Illuminate\Contracts\Console\Kernel')->bootstrap(); echo App\Models\User::count();") 
-    if [ "$USER_COUNT" = "0" ]; then
-        echo "Menjalankan database seeder untuk pertama kali..."
+    # Opsi untuk force run seeder setiap deploy
+    if [ "${FORCE_SEED:-}" = "true" ]; then
+        echo "Force running database seeder..."
         php artisan db:seed --force || true
     else
-        echo "Database sudah berisi user, skip seeding."
+        # Jalankan seeder hanya jika table users masih kosong (first time deploy)
+        USER_COUNT=$(php -r "require 'vendor/autoload.php'; try { \$app = require 'bootstrap/app.php'; \$app->make('Illuminate\Contracts\Console\Kernel')->bootstrap(); echo App\Models\User::count(); } catch (Exception \$e) { echo '0'; }") 
+        if [ "$USER_COUNT" = "0" ]; then
+            echo "Menjalankan database seeder untuk pertama kali..."
+            php artisan db:seed --force || true
+        else
+            echo "Database sudah berisi user ($USER_COUNT users), skip seeding."
+            echo "Tip: Set FORCE_SEED=true untuk force run seeder setiap deploy."
+        fi
     fi
 fi
 

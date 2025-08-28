@@ -19,16 +19,17 @@ class DatabaseSeeder extends Seeder
         // DB::unprepared(file_get_contents((database_path('seeders/indonesia.sql'))));
 
         User::updateOrCreate(
-            ['email' => 'admin@attaufiq.com'], // kunci unik
+            ['email' => 'admin@attaufiq.com'], 
             [
                 'name' => 'Administrator',
                 'email_verified_at' => now(),
-                'password' => Hash::make('password'), // jangan lupa ganti di production!
+                'password' => Hash::make('password'), 
                 'remember_token' => Str::random(10),
             ]
         );
 
         $this->call([
+            WebSettingSeeder::class,
             ProvinceSeeder::class,
             RegencySeeder::class,
             DistrictSeeder::class,

@@ -19,17 +19,6 @@ class OrangTuaSiswa extends Model
         'hubungan',
     ];
 
-    // protected $casts = [
-    //     'keadaan' => 'enum',
-    // ];
-
-    // protected function casts(): array
-    // {
-    //     return [
-    //         'keadaan' => 'enum',
-    //     ];
-    // }
-
     // Relasi dengan Siswa
     public function pendaftaranSiswa()
     {

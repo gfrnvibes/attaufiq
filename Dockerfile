@@ -22,7 +22,8 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 # Configure Apache
 RUN sed -i 's|DocumentRoot /var/www/html|DocumentRoot /var/www/html/public|g' /etc/apache2/sites-available/000-default.conf \
- && a2enmod rewrite
+ && a2enmod rewrite \
+ && echo "ServerName localhost" >> /etc/apache2/apache2.conf
 
 WORKDIR /var/www/html
 

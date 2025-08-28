@@ -12,7 +12,9 @@ FROM php:8.2-apache
 # Install sistem dependencies + PHP extensions
 RUN apt-get update && apt-get install -y \
     git unzip curl libzip-dev zip libpng-dev libonig-dev libxml2-dev libpq-dev \
-    && docker-php-ext-install pdo pdo_pgsql zip mbstring xml gd \
+    libicu-dev libjpeg-dev libfreetype6-dev \
+    && docker-php-ext-configure gd --with-freetype --with-jpeg \
+    && docker-php-ext-install pdo pdo_pgsql zip mbstring xml gd intl exif \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Install Composer

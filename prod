@@ -1,0 +1,9 @@
+APP_DEBUG=false
+APP_ENV=production
+APP_KEY=base64:7B/74QvESSopkMWxyMmKylCPCuxXeo5dyo7iP6X0S7c=
+APP_URL=https://www.mts-attaufiq.my.id/
+ASSET_URL=https://www.mts-attaufiq.my.id
+CACHE_STORE=file
+DATABASE_URL=postgres://koyeb-adm:npg_1WaA4eRZiyVU@ep-sweet-wildflower-a2mi4z5f.eu-central-1.pg.koyeb.app/attaufiq
+DB_CONNECTION=pgsql
+DB_SSLMODE=require

@@ -162,7 +162,7 @@
                 </div>
             </div>
             <div class="text-center mx-auto mt-3">
-                <a href="" class="btn btn-outline-success rounded-pill fw-bold">📸 Lihat Semua Kegiatan</a>
+                <a href="" class="btn btn-outline-success rounded-pill fw-bold">📸 Lihat Semua</a>
             </div>
         </div>
     </div>

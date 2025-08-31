@@ -1,4 +1,4 @@
-<div>
+<div class="vh-100">
         <div class="mt-5 mb-4">
         <h1 class="text-center text-gradient fw-bold display-4">Kesiswaan</h1>
     </div>

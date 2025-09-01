@@ -2,7 +2,7 @@
 
 namespace App\Livewire;
 
-use App\Models\WebSetting;
+use App\Models\ProfilSekolah;
 use Livewire\Component;
 use Livewire\Attributes\Title;
 
@@ -11,8 +11,11 @@ class Home extends Component
 {
     public function render()
     {
-        $webSetting = WebSetting::firstOrFail();
+        $profilSekolah = ProfilSekolah::firstOrFail();
 
-        return view('livewire.home', compact('webSetting'));
+        // User dengan jabatan Kepala Sekolah
+        
+
+        return view('livewire.home', compact('profilSekolah'));
     }
 }

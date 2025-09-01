@@ -18,7 +18,7 @@
                 <img src="https://placehold.co/400x200" alt="" class="img-fluid">
             </div>
             <div class="col-12 col-md-6">
-                <p class="text-justify">{{ $webSetting->sejarah }}</p>
+                <p class="text-justify">{{ $profil->sejarah }}</p>
             </div>
         </div>
     </div>
@@ -29,13 +29,13 @@
         <div class="row">
             <div class="col-12 col-md-6 text-center">
                 <h4>Visi</h4>
-                <p class="">"{{ $webSetting->visi }}"</p>
+                <p class="">"{{ $profil->visi }}"</p>
             </div>
             <div class="col-12 col-md-6">
                 <h4 class="text-center">Misi</h4>
                 <ol>
-                    @foreach ($webSetting->misi as $key => $misi)
-                       <li class="text-justify">{{ $misi }}</li>
+                    @foreach ($profil->misi as $key => $misi)
+                       <li class="text-justify">{{ $misi['misi_item'] }}</li>
                     @endforeach
                 </ol>
             </div>

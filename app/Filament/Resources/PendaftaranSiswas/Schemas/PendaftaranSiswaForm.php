@@ -21,7 +21,7 @@ class PendaftaranSiswaForm
                 Section::make('Data Siswa')
                     ->columns([
                         'sm' => 1,
-                        'xl' => 2,
+                        'xl' => 3,
                     ])
                     ->schema([
                         TextInput::make('nama_lengkap')
@@ -47,7 +47,9 @@ class PendaftaranSiswaForm
                         TextInput::make('no_hp')
                             ->required(),
                         TextInput::make('prestasi'),
-                    ])->columnSpanFull(),
+                    ])
+                    ->collapsible()
+                    ->columnSpanFull(),
 
                 // Section 2: Data Orang Tua Siswa (Relasi)
                 Section::make('Data Orang Tua Siswa')
@@ -56,7 +58,7 @@ class PendaftaranSiswaForm
                             ->relationship('orangTuaSiswa')
                             ->columns([
                                 'sm' => 1,
-                                'xl' => 2,
+                                'xl' => 3,
                             ])
                             ->schema([
                                 Hidden::make('siswa_id'),
@@ -64,7 +66,7 @@ class PendaftaranSiswaForm
                                 TextInput::make('nomor_kartu_keluarga')
                                     ->required(),
 
-                                Select::make('tipe')
+                                Select::make('Sebagai')
                                     ->options([
                                         'ayah' => 'Ayah',
                                         'ibu' => 'Ibu',
@@ -103,7 +105,9 @@ class PendaftaranSiswaForm
                                     ->visible(fn(callable $get) => $get('tipe') === 'wali') // tampil kalau wali
                                     ->required(fn(callable $get) => $get('tipe') === 'wali'),
                             ]),
-                    ])->columnSpanFull(),
+                    ])
+                    ->collapsible()
+                    ->columnSpanFull(),
 
                 // Section 3: Unggah File Siswa
                 Section::make('Unggah File Siswa')

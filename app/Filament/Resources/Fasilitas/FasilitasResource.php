@@ -16,6 +16,7 @@ use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\TextArea;
 use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
 use App\Filament\Resources\Fasilitas\Pages\ManageFasilitas;
 
@@ -32,11 +33,11 @@ class FasilitasResource extends Resource
     {
         return $schema
             ->components([
+                TextInput::make('nama_fasilitas')->required(),
+                TextArea::make('deskripsi_fasilitas'),
                 SpatieMediaLibraryFileUpload::make('gambar')
+                    ->multiple()
                     ->label('Gambar'),
-                TextInput::make('nama_fasilitas')
-                    ->required(),
-                TextInput::make('deskripsi_fasilitas'),
             ]);
     }
 

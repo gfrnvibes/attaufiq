@@ -15,6 +15,7 @@ use Filament\Forms\Contracts\HasForms;
 use Illuminate\Database\Eloquent\Model;
 use Filament\Forms\Components\TextInput;
 use Filament\Notifications\Notification;
+use Filament\Schemas\Components\Section;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Concerns\InteractsWithForms;
 use App\Models\PeriodePendaftaran as PeriodePendaftaranModel;
@@ -42,28 +43,29 @@ class PeriodePendaftaran extends Page implements HasForms
     protected function getFormSchema(): array
     {
         return [
-            Grid::make(2)
+            Section::make('Periode Pendaftaran')
                 ->schema([
-                    Select::make('periode')
-                        ->options([
-                            'gelombang_1' => 'Gelombang 1',
-                            'gelombang_2' => 'Gelombang 2',
-                            'gelombang_3' => 'Gelombang 3',
-                        ]),
-                    DatePicker::make('tanggal_mulai')
-                        ->label('Tanggal Mulai')
-                        ->date()
-                        ->required(),
-                    DatePicker::make('tanggal_selesai')
-                        ->label('Tanggal Selesai')
-                        ->date()
-                        ->required(),
-                    Toggle::make('is_active')
-                        ->inline()
-                        ->onColor('success')
-                        ->offColor('danger')
-                        ->required(),
-                ])
+                    Grid::make(4)
+                        ->schema([
+                            DatePicker::make('tanggal_mulai')
+                                ->label('Tanggal Mulai')
+                                ->date()
+                                ->required(),
+                            DatePicker::make('tanggal_selesai')
+                                ->label('Tanggal Selesai')
+                                ->date()
+                                ->required(),
+                            TextInput::make('periode')
+                                ->label('Tahun Ajaran')
+                                ->required(),
+                            Toggle::make('is_active')
+                                ->label('Aktif/Nonaktif')
+                                ->inline(false)
+                                ->onColor('success')
+                                ->offColor('danger')
+                                ->required(),
+                        ])
+                ]),
         ];
     }
 

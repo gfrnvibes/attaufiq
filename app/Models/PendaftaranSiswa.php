@@ -23,11 +23,12 @@ class PendaftaranSiswa extends Model implements HasMedia
         'anak_ke',
         'jumlah_saudara_kandung',
         'no_hp',
+        'status',
         'prestasi',
     ];
 
     protected $casts = [
-        'prestasi' => 'json',
+        'prestasi' => 'array',
     ];
 
     // Relasi dengan Orang Tua Siswa
@@ -46,8 +47,11 @@ class PendaftaranSiswa extends Model implements HasMedia
 
     public function registerMediaCollections(): void
     {
-        $this->addMediaCollection('file_siswa')
-            ->singleFile();
+        $this->addMediaCollection('document')->singleFile();
     }
 
+    public function getRouteKeyName(): string
+    {
+        return 'nama_lengkap'; // atau 'nama_siswa' kalau kamu slugify langsung
+    }
 }

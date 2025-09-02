@@ -2,18 +2,19 @@
 
 namespace App\Filament\Resources\Gurus;
 
-use App\Filament\Resources\Gurus\Pages\CreateGuru;
-use App\Filament\Resources\Gurus\Pages\EditGuru;
-use App\Filament\Resources\Gurus\Pages\ListGurus;
-use App\Filament\Resources\Gurus\Schemas\GuruForm;
-use App\Filament\Resources\Gurus\Tables\GurusTable;
-use App\Models\Guru;
 use UnitEnum;
 use BackedEnum;
-use Filament\Resources\Resource;
-use Filament\Schemas\Schema;
-use Filament\Support\Icons\Heroicon;
+use App\Models\Guru;
 use Filament\Tables\Table;
+use Filament\Schemas\Schema;
+use Filament\Resources\Resource;
+use Filament\Support\Icons\Heroicon;
+use App\Filament\Resources\Gurus\Pages\EditGuru;
+use App\Filament\Resources\Gurus\Pages\ViewGuru;
+use App\Filament\Resources\Gurus\Pages\ListGurus;
+use App\Filament\Resources\Gurus\Pages\CreateGuru;
+use App\Filament\Resources\Gurus\Schemas\GuruForm;
+use App\Filament\Resources\Gurus\Tables\GurusTable;
 
 class GuruResource extends Resource
 {
@@ -46,6 +47,7 @@ class GuruResource extends Resource
             'index' => ListGurus::route('/'),
             'create' => CreateGuru::route('/create'),
             'edit' => EditGuru::route('/{record}/edit'),
+            'view' => ViewGuru::route('/{record}'),
         ];
     }
 }

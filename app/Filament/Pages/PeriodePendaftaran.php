@@ -90,7 +90,22 @@ class PeriodePendaftaran extends Page implements HasForms
 
     public function save(): void
     {
-        $this->record->fill($this->form->getState());
+        $state = $this->form->getState();
+        $isTanggalSelesaiTerlewat = !empty($state['tanggal_selesai']) && strtotime($state['tanggal_selesai']) < strtotime(date('Y-m-d'));
+
+        if ($isTanggalSelesaiTerlewat && !empty($state['is_active']) && $state['is_active']) {
+            Notification::make()
+                ->title('Gagal menyimpan!')
+                ->body('Periode sudah berakhir, tidak bisa diaktifkan.')
+                ->danger()
+                ->send();
+            return;
+        }
+        // Jika tanggal_selesai sudah terlewat, set is_active ke false
+        if ($isTanggalSelesaiTerlewat) {
+            $state['is_active'] = false;
+        }
+        $this->record->fill($state);
         $this->record->save();
 
         Notification::make()

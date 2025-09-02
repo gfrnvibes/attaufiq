@@ -34,6 +34,7 @@ class EkskulResource extends Resource
         return $schema
             ->components([
                 SpatieMediaLibraryFileUpload::make('gambar')
+                    ->collection('thumbnail')
                     ->label('Gambar'),
                 TextInput::make('nama_ekskul')
                     ->required()
@@ -50,6 +51,7 @@ class EkskulResource extends Resource
             ->recordTitleAttribute('Extra Kulikuler')
             ->columns([
                 SpatieMediaLibraryImageColumn::make('gambar')
+                    ->collection('thumbnail')
                     ->label('Gambar'),
                 TextColumn::make('nama_ekskul')
                     ->searchable(),

@@ -9,6 +9,7 @@ use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Components\Section;
 use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\KeyValue;
 use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 
 class PendaftaranSiswaForm
@@ -25,19 +26,31 @@ class PendaftaranSiswaForm
                     ])
                     ->schema([
                         TextInput::make('nama_lengkap')
+                            ->label('Nama Lengkap')
                             ->required(),
                         TextInput::make('nik')
+                            ->label('NIK')
+                            ->rule('digits:16') // atau minLength/maxLength
+                            ->extraInputAttributes(['inputmode' => 'numeric']) // biar keypad angka muncul di HP
+                            ->required(),
+                        TextInput::make('nisn')
+                            ->label('NISN')
+                            ->numeric()
+                            ->length(10)
                             ->required(),
                         Select::make('jenis_kelamin')
-                            ->options(['L' => 'L', 'P' => 'P'])
+                            ->label('Jenis Kelamin')
+                            ->options(['L' => 'Laki-laki', 'P' => 'Perempuan'])
                             ->required(),
                         TextInput::make('tempat_lahir')
+                            ->label('Tempat Lahir')
                             ->required(),
                         DatePicker::make('tanggal_lahir')
+                            ->label('Tanggal Lahir')
                             ->required(),
                         TextInput::make('asal_sekolah')
+                            ->label('Asal Sekolah')
                             ->required(),
-                        TextInput::make('nisn'),
                         TextInput::make('anak_ke')
                             ->required()
                             ->numeric(),
@@ -45,8 +58,10 @@ class PendaftaranSiswaForm
                             ->required()
                             ->numeric(),
                         TextInput::make('no_hp')
+                            ->label('No. HP')
                             ->required(),
-                        TextInput::make('prestasi'),
+                        KeyValue::make('prestasi')
+                            ->nullable(),
                     ])
                     ->collapsible()
                     ->columnSpanFull(),
@@ -110,24 +125,16 @@ class PendaftaranSiswaForm
                     ->columnSpanFull(),
 
                 // Section 3: Unggah File Siswa
-                Section::make('Unggah File Siswa')
+                Section::make('Unggah Dokumen Siswa')
                     ->columns([
                         'sm' => 1,
                         'xl' => 2,
                     ])
                     ->schema([                   
-                        SpatieMediaLibraryFileUpload::make('ijazah')
-                            ->label('Ijazah (Legalisir)'),
-                        SpatieMediaLibraryFileUpload::make('ktp_ayah')
-                            ->label('KTP Ayah'),
-                        SpatieMediaLibraryFileUpload::make('ktp_ibu')
-                            ->label('KTP Ibu'),
-                        SpatieMediaLibraryFileUpload::make('akta')
-                            ->label('Akta Kelahiran'),
-                        SpatieMediaLibraryFileUpload::make('kk')
-                            ->label('Kartu Keluarga'),
-                        SpatieMediaLibraryFileUpload::make('nisn')
-                            ->label('NISN'),
+                        SpatieMediaLibraryFileUpload::make('document')
+                            ->multiple()
+                            ->maxSize(2048)
+                            ->label('Unggah Dokumen yang diperlukan (max 2MB)'),
                     ])
                     ->columnSpanFull(),
             ]);

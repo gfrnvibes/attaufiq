@@ -12,36 +12,36 @@
 
     {{-- Sejarah Madrasah --}}
     <div class="container p-5" id="sejarah">
-        <h3 class="text-center special-font text-success mb-5">At-Taufiq tuh punya sejarah kayak gimana, ya?</h3>
+        <h1 class="text-center special-font text-success mb-5">Sejarah Madrasah</h1>
         <div class="row justify-content-center align-items-center">
             <div class="col">
                 <img src="https://placehold.co/400x200" alt="" class="img-fluid">
             </div>
             <div class="col-12 col-md-6">
-                <p class="text-justify">{{ $profil->sejarah }}</p>
+                <p class="text-justify lead">{{ $profil->sejarah }}</p>
             </div>
         </div>
     </div>
 
     {{-- Visi & Misi --}}
     <div class="container p-5" id="visi">
-        <h3 class="text-center special-font text-success mb-5">Arah & Tujuan Kita</h3>
+        <h1 class="text-center special-font text-success mb-5">Arah & Tujuan Kita</h1>
         <div class="row">
             <div class="col-12 col-md-6 text-center">
-                <h4>Visi</h4>
-                <p class="">"{{ $profil->visi }}"</p>
+                <h2>Visi</h2>
+                <p class="lead">"{{ $profil->visi }}"</p>
             </div>
             <div class="col-12 col-md-6">
-                <h4 class="text-center">Misi</h4>
+                <h2 class="text-center">Misi</h2>
                 <ol>
                     @foreach ($profil->misi as $key => $misi)
-                       <li class="text-justify">{{ $misi['misi_item'] }}</li>
+                        <li class="text-justify lead">{{ $misi['misi_item'] }}</li>
                     @endforeach
                 </ol>
             </div>
         </div>
     </div>
-    
+
     {{-- Struktur Organisasi --}}
     <div class="container p-5" id="struktur">
         <h3 class="text-center special-font text-success mb-5">Struktur Organisasi</h3>
@@ -52,7 +52,7 @@
 
     {{-- Guru & Tenaga Kependidikan --}}
     <div class="container p-5" id="guru">
-        <h3 class="text-center special-font text-success mb-5">Para Pahlawan At-Taufiq</h3>        
+        <h3 class="text-center special-font text-success mb-5">Para Pahlawan At-Taufiq</h3>
         <div class="row g-3">
             @forelse($gurus as $guru)
                 <div class="col-12 col-md-6 col-lg-3">
@@ -61,18 +61,20 @@
                             $avatarUrl = $guru->getFirstMediaUrl('avatar');
                             $previewUrl = $guru->getFirstMediaUrl('avatar', 'preview');
                         @endphp
-                        
-                        @if($avatarUrl)
-                            <img src="{{ $previewUrl ?: $avatarUrl }}" alt="{{ $guru->name }}" class="card-img-top" style="height: 300px; object-fit: cover;">
+
+                        @if ($avatarUrl)
+                            <img src="{{ $previewUrl ?: $avatarUrl }}" alt="{{ $guru->name }}" class="card-img-top"
+                                style="height: 300px; object-fit: cover;">
                         @else
-                            <div class="card-img-top d-flex align-items-center justify-content-center bg-light" style="height: 300px;">
+                            <div class="card-img-top d-flex align-items-center justify-content-center bg-light"
+                                style="height: 300px;">
                                 <i class="fas fa-user fa-5x text-muted"></i>
                             </div>
                         @endif
-                        
+
                         <div class="card-body text-center">
                             <h5 class="card-title">{{ $guru->name }}</h5>
-                            @if($guru->jabatan)
+                            @if ($guru->jabatan)
                                 <p class="card-text text-muted text-capitalize">{{ $guru->jabatan }}</p>
                             @endif
                         </div>
@@ -89,27 +91,29 @@
     {{-- Sarana & Prasarana --}}
     <div class="container p-5" id="sarana">
         <h3 class="text-center special-font text-success mb-5">Fasilitas Asik Buat Belajar</h3>
-        @if($fasilitas->count() > 0)
+        @if ($fasilitas->count() > 0)
             <div class="row g-4">
-                @foreach($fasilitas as $item)
+                @foreach ($fasilitas as $item)
                     <div class="col-12 col-md-6 col-lg-4">
                         <div class="card h-100">
                             @php
-                                $gambarUrl = $item->getFirstMediaUrl('gambar');
-                                $previewUrl = $item->getFirstMediaUrl('gambar', 'preview');
+                                $gambar = $item->getFirstMedia('default');
                             @endphp
-                            
-                            @if($gambarUrl)
-                                <img src="{{ $previewUrl ?: $gambarUrl }}" alt="{{ $item->nama_fasilitas }}" class="card-img-top" style="height: 200px; object-fit: cover;">
+
+                            @if ($gambar)
+                                <img src="{{ route('media.show', $gambar) }}" alt="{{ $item->nama_fasilitas }}"
+                                    class="card-img-top" style="height: 200px; object-fit: cover;">
                             @else
-                                <div class="card-img-top d-flex align-items-center justify-content-center bg-light" style="height: 200px;">
+                                <div class="card-img-top d-flex align-items-center justify-content-center bg-light"
+                                    style="height: 200px;">
                                     <i class="fas fa-building fa-3x text-muted"></i>
                                 </div>
                             @endif
-                            
+
+
                             <div class="card-body">
                                 <h5 class="card-title">{{ $item->nama_fasilitas }}</h5>
-                                @if($item->deskripsi_fasilitas)
+                                @if ($item->deskripsi_fasilitas)
                                     <p class="card-text">{{ $item->deskripsi_fasilitas }}</p>
                                 @endif
                             </div>

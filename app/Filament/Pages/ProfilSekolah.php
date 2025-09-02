@@ -16,6 +16,7 @@ use Filament\Notifications\Notification;
 use Filament\Schemas\Components\Section;
 use Filament\Forms\Concerns\InteractsWithForms;
 use App\Models\ProfilSekolah as ProfilSekolahModel;
+use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Filament\Schemas\Components\Grid;
@@ -74,13 +75,12 @@ class ProfilSekolah extends Page implements HasForms
                                 ->required()
                                 ->maxLength(255)
                                 ->columnSpanFull(),
-                            Textarea::make('sejarah')
+                            RichEditor::make('sejarah')
                                 ->label('Sejarah Singkat Sekolah/Madrasah')
                                 ->columnSpanFull(),
-                            Textarea::make('sambutan_kepsek')
+                            RichEditor::make('sambutan_kepsek')
                                 ->label('Sambutan Kepala Sekolah/Madrasah')
                                 ->required()
-                                ->maxLength(255)
                                 ->columnSpanFull(),
                 ])->collapsible(),
 
@@ -119,6 +119,7 @@ class ProfilSekolah extends Page implements HasForms
                                 ->placeholder('Contoh: 1000')
                                 ->maxLength(255)
                         ])
+                        ->defaultItems(5)
                         ->addActionLabel('Tambah Statistik')
                         ->grid(3),
                 ])->collapsible(),

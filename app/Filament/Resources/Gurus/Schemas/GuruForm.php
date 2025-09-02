@@ -52,9 +52,9 @@ class GuruForm
                         ->searchable()
                         ->preload()
                         ->multiple(),
-                        SpatieMediaLibraryFileUpload::make('avatar')
-                            ->label('Foto')
-                            ->responsiveImages(),
+                    SpatieMediaLibraryFileUpload::make('avatar')
+                        ->label('Foto')
+                        ->responsiveImages(),
                 ]),
 
                 Section::make('Alamat')

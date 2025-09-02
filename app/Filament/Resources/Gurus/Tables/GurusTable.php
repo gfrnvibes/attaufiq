@@ -34,6 +34,11 @@ class GurusTable
                     ->searchable(),
                 TextColumn::make('jabatan')
                     ->label('Jabatan')
+                    ->badge()
+                    ->color(fn(string $state): string => match ($state) {
+                        'kepsek' => 'gray',
+                        'guru' => 'warning',
+                    })
                     ->searchable(),
                 TextColumn::make('created_at')
                     ->dateTime()

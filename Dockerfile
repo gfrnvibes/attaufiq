@@ -15,9 +15,10 @@ RUN apt-get update && apt-get install -y \
     git unzip curl zip libpng-dev libonig-dev libxml2-dev \
     libicu-dev libjpeg-dev libfreetype6-dev \
     # Install Postgres client modern
-    lsb-release gnupg2 wget \
-    && echo "deb http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list \
-    && wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add - \
+    lsb-release gnupg2 wget ca-certificates \
+    && mkdir -p /usr/share/keyrings \
+    && wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | gpg --dearmor -o /usr/share/keyrings/postgresql-archive-keyring.gpg \
+    && echo "deb [signed-by=/usr/share/keyrings/postgresql-archive-keyring.gpg] http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list \
     && apt-get update && apt-get install -y \
     postgresql-client-15 libpq-dev \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \

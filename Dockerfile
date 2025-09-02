@@ -10,12 +10,20 @@ RUN npm run build
 FROM php:8.3-apache
 
 # Install sistem dependencies + PHP extensions
+# Install sistem dependencies + PHP extensions
 RUN apt-get update && apt-get install -y \
-    git unzip curl libzip-dev zip libpng-dev libonig-dev libxml2-dev libpq-dev \
+    git unzip curl zip libpng-dev libonig-dev libxml2-dev \
     libicu-dev libjpeg-dev libfreetype6-dev \
+    # Install Postgres client modern
+    lsb-release gnupg2 wget \
+    && echo "deb http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list \
+    && wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add - \
+    && apt-get update && apt-get install -y \
+    postgresql-client-15 libpq-dev \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install pdo pdo_pgsql zip mbstring xml gd intl exif \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
+
 
 # Install Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer

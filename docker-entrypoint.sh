@@ -75,32 +75,56 @@ log "DB_PASSWORD: [${#DB_PASSWORD} karakter]"
 # Jika ada POSTGRESQL_URL / DATABASE_URL, parse ke DB_*
 URL_TO_PARSE="${POSTGRESQL_URL:-${DATABASE_URL:-}}"
 if [ -n "$URL_TO_PARSE" ]; then
+  log "Parsing DATABASE_URL: ${URL_TO_PARSE%\?*}..." # Log tanpa query string untuk keamanan
+  
   # Format yang umum: postgres://user:pass@host:port/dbname?sslmode=require
+  # Hapus protocol
   proto_removed=${URL_TO_PARSE#*://}
-  if [[ "$URL_TO_PARSE" == *"@"* ]]; then
+  
+  # Pisahkan user:pass dari host:port/db
+  if [[ "$proto_removed" == *"@"* ]]; then
     userpass=${proto_removed%%@*}
     hostpath=${proto_removed#*@}
   else
     userpass=""
     hostpath=$proto_removed
   fi
+  
+  # Pisahkan host:port dari /dbname?query
   hostport=${hostpath%%/*}
   dbname_qs=${hostpath#*/}
+  
+  # Pisahkan dbname dari query string
   dbname=${dbname_qs%%\?*}
+  
+  # Parse host dan port
   host=${hostport%%:*}
   port=${hostport#*:}
   [ "$host" = "$hostport" ] && port="5432"
-
+  
+  # Parse username dan password
   if [ -n "$userpass" ]; then
     dbuser=${userpass%%:*}
     dbpass=${userpass#*:}
   fi
-
+  
+  # Set environment variables hanya jika belum ada
   export DB_HOST=${DB_HOST:-$host}
   export DB_PORT=${DB_PORT:-$port}
   export DB_DATABASE=${DB_DATABASE:-$dbname}
   [ -n "$dbuser" ] && export DB_USERNAME=${DB_USERNAME:-$dbuser}
   [ -n "$dbpass" ] && export DB_PASSWORD=${DB_PASSWORD:-$dbpass}
+  
+  # Extract endpoint ID for Koyeb/Neon PostgreSQL
+  if [[ "$host" == *".pg.koyeb.app" ]]; then
+    endpoint_id=${host%%-*}
+    export DB_OPTIONS=${DB_OPTIONS:-"endpoint=$endpoint_id"}
+    log "Auto-detected Koyeb endpoint: $endpoint_id"
+  fi
+  
+  log "Parsed - Host: $DB_HOST, Port: $DB_PORT, Database: $DB_DATABASE, User: $DB_USERNAME"
+else
+  log "Tidak ada DATABASE_URL untuk di-parse, menggunakan konfigurasi DB_* langsung"
 fi
 
 # Pastikan storage link (idempotent)
@@ -112,7 +136,10 @@ if [ "${DB_CONNECTION}" = "pgsql" ] && [ -n "${DB_HOST}" ]; then
   MAX_ATTEMPTS=30
   attempt=0
   until php -r 'try {
-      $dsn = sprintf("pgsql:host=%s;port=%s;dbname=%s", getenv("DB_HOST")?: "localhost", getenv("DB_PORT")?: "5432", getenv("DB_DATABASE")?: "");
+      $dsn = sprintf("pgsql:host=%s;port=%s;dbname=%s;sslmode=%s", getenv("DB_HOST")?: "localhost", getenv("DB_PORT")?: "5432", getenv("DB_DATABASE")?: "", getenv("DB_SSLMODE")?: "prefer");
+      if (getenv("DB_OPTIONS")) {
+          $dsn .= ";options=\"" . getenv("DB_OPTIONS") . "\"";
+      }
       new PDO($dsn, getenv("DB_USERNAME")?: "", getenv("DB_PASSWORD")?: "");
       exit(0);
   } catch (Throwable $e) { 
@@ -132,7 +159,7 @@ else
   log "PERINGATAN: DB_HOST tidak ter-set atau DB_CONNECTION bukan pgsql. Lewati penantian DB."
 fi
 
-# Test koneksi database dengan artisan
+# Test koneksi database dengan artisan (tanpa menjalankan migrasi)
 log "Testing koneksi database dengan artisan..."
 if run_artisan "migrate:status" "Test koneksi database" true; then
     log "✓ Koneksi database berhasil"
@@ -140,82 +167,12 @@ else
     log "PERINGATAN: Koneksi database melalui artisan gagal"
 fi
 
-# Discover package dan migrasi (akan berhasil jika DB terkonfigurasi benar)
+# Discover package (tidak melakukan migrasi)
 run_artisan "package:discover --ansi" "Package discovery" true
 
-# Function untuk mengecek user count dengan robust error handling
-get_user_count() {
-    local count
-    count=$(php -r "
-        try {
-            require 'vendor/autoload.php';
-            \$app = require 'bootstrap/app.php';
-            \$kernel = \$app->make('Illuminate\\Contracts\\Console\\Kernel');
-            \$kernel->bootstrap();
-            echo \App\\Models\\User::count();
-        } catch (Exception \$e) {
-            echo 'ERROR: ' . \$e->getMessage();
-        } catch (Throwable \$e) {
-            echo 'ERROR: ' . \$e->getMessage();
-        }
-    " 2>&1)
-    
-    if [[ "$count" == ERROR:* ]]; then
-        log "Error saat mengecek user count: $count"
-        echo "0"
-    else
-        echo "$count"
-    fi
-}
-
-# Database Migration dan Seeding
-log "=== Database Migration & Seeding ==="
-
-# Cek apakah perlu fresh migration
-if [ "${FRESH_MIGRATE:-}" = "true" ]; then
-    log "Mode FRESH_MIGRATE aktif - akan menghapus dan membuat ulang semua table"
-    if run_artisan "migrate:fresh --force" "Fresh migration (drop semua table)" false; then
-        log "Fresh migration berhasil, akan menjalankan seeder..."
-        run_artisan "db:seed --force" "Database seeding setelah fresh migration" false
-    else
-        log "FATAL: Fresh migration gagal"
-        exit 1
-    fi
-else
-    log "Mode migration normal (incremental)"
-    if run_artisan "migrate --force" "Database migration" false; then
-        log "Migration berhasil, mengecek apakah perlu seeding..."
-        
-        # Opsi untuk force run seeder setiap deploy
-        if [ "${FORCE_SEED:-}" = "true" ]; then
-            log "Mode FORCE_SEED aktif - akan menjalankan seeder paksa"
-            run_artisan "db:seed --force" "Force database seeding" false
-        else
-            log "Mengecek apakah database kosong untuk first-time seeding..."
-            USER_COUNT=$(get_user_count)
-            log "Jumlah user di database: $USER_COUNT"
-            
-            if [ "$USER_COUNT" = "0" ]; then
-                log "Database kosong, menjalankan first-time seeding..."
-                run_artisan "db:seed --force" "First-time database seeding" false
-                
-                # Verifikasi seeding berhasil
-                FINAL_USER_COUNT=$(get_user_count)
-                if [ "$FINAL_USER_COUNT" != "0" ] && [[ "$FINAL_USER_COUNT" != ERROR:* ]]; then
-                    log "✓ Seeding berhasil! Jumlah user sekarang: $FINAL_USER_COUNT"
-                else
-                    log "PERINGATAN: Seeding mungkin gagal. User count setelah seeding: $FINAL_USER_COUNT"
-                fi
-            else
-                log "Database sudah berisi data ($USER_COUNT users), skip seeding"
-                log "Tip: Set FORCE_SEED=true untuk menjalankan seeder paksa"
-            fi
-        fi
-    else
-        log "FATAL: Migration gagal"
-        exit 1
-    fi
-fi
+# INFO: Database Migration dan Seeding telah dipindahkan ke proses manual
+log "INFO: Database migration dan seeding tidak dilakukan secara otomatis."
+log "INFO: Jalankan 'php artisan migrate' dan 'php artisan db:seed' secara manual dari terminal lokal."
 
 # Final cache clearing dan optimization
 log "=== Final Cache & Optimization ==="

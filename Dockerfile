@@ -50,12 +50,14 @@ COPY --from=assets /app/public/build /var/www/html/public/build
 # Run composer scripts after all files are copied
 RUN composer dump-autoload --optimize --no-dev
 
-# Direktori penting + permission dasar
+# Direktori penting + permission dasar + media library
 RUN mkdir -p storage/app/public \
  && mkdir -p storage/logs \
  && mkdir -p storage/framework/cache \
  && mkdir -p storage/framework/sessions \
  && mkdir -p storage/framework/views \
+ && mkdir -p storage/media-library/temp \
+ && mkdir -p storage/app/livewire-tmp \
  && mkdir -p bootstrap/cache \
  && chown -R www-data:www-data /var/www/html \
  && chmod -R 755 /var/www/html \

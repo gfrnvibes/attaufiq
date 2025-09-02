@@ -71,6 +71,41 @@ Karena migration dan seeding sekarang dilakukan manual, pastikan:
 2. Koneksi ke database dapat terhubung
 3. Jalankan perintah dari terminal lokal dengan environment yang tepat
 
+### Problem: Upload File dengan Filament Spatie Media Library Gagal
+
+**Gejala**: Upload loading terus, file tidak terupload
+
+**Penyebab Umum**:
+1. APP_URL tidak sesuai dengan domain production
+2. Storage symbolic link belum dibuat
+3. Permission direktori storage
+4. Queue conversion yang tidak berjalan
+
+**Solusi**:
+
+1. **Set APP_URL yang benar**:
+```env
+APP_URL=https://your-actual-domain.koyeb.app
+```
+
+2. **Set environment variables media library**:
+```env
+FILESYSTEM_DISK=public
+MEDIA_DISK=public
+QUEUE_CONNECTION=sync
+QUEUE_CONVERSIONS_BY_DEFAULT=false
+IMAGE_DRIVER=gd
+```
+
+3. **Pastikan direktori storage sudah ada** (sudah otomatis dibuat di docker-entrypoint.sh):
+   - `storage/app/public`
+   - `storage/media-library/temp`
+   - `public/storage` (symbolic link)
+
+4. **Debug dengan logs**:
+   - Cek network tab browser untuk error 500/400
+   - Lihat Laravel logs di `storage/logs/laravel.log`
+
 ## Monitoring Deployment
 
 Logs docker-entrypoint.sh akan menampilkan:

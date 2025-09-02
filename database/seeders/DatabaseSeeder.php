@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\ProfilSekolah;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Support\Str;
@@ -29,7 +30,7 @@ class DatabaseSeeder extends Seeder
         );
 
         $this->call([
-            WebSettingSeeder::class,
+            ProfilSekolahSeeder::class,
             ProvinceSeeder::class,
             RegencySeeder::class,
             DistrictSeeder::class,

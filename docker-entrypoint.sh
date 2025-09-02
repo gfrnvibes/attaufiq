@@ -34,6 +34,8 @@ cd /var/www/html
 log "Menyiapkan direktori dan permission..."
 mkdir -p storage/app/livewire-tmp
 mkdir -p storage/framework/{cache,sessions,views}
+mkdir -p storage/media-library/temp
+mkdir -p storage/app/public/media
 mkdir -p bootstrap/cache
 
 chown -R www-data:www-data storage bootstrap/cache
